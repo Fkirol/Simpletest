@@ -42,7 +42,7 @@ class Post(models.Model):
     status = models.IntegerField(choices=Status.choices, default=Status.UNPUBLISHED)
     date_time = models.DateTimeField(auto_now_add=True)
     
-
+    
 
 class Suscriptor(models.Model):
     email = models.EmailField(max_length=200,unique=True,default=None)
