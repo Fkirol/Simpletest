@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='featured_image',
-            field=models.CharField(default=None, max_length=200),
+            field=models.CharField(default=None, max_length=200,null=True),
         ),
     ]
