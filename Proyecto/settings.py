@@ -45,7 +45,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'Usuario',
     'corsheaders',
+    'drf_yasg',
 ]
+
+EST_FRAMEWORK = {
+       'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema'
+   }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
