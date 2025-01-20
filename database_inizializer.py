@@ -327,10 +327,37 @@ def create_suscriptors():
 
 
 
+
+
+def delete_all_data():
+    print("Deleting all data...")
+
+    # Eliminar todos los registros de Skill
+    num_skills_deleted, _ = Skill.objects.all().delete()
+    print(f"Deleted {num_skills_deleted} Skills.")
+
+    # Eliminar todos los registros de Member
+    num_members_deleted, _ = Member.objects.all().delete()
+    print(f"Deleted {num_members_deleted} Members.")
+
+    # Eliminar todos los registros de Project
+    num_projects_deleted, _ = Project.objects.all().delete()
+    print(f"Deleted {num_projects_deleted} Projects.")
+
+    # Eliminar todos los registros de Post
+    num_posts_deleted, _ = Post.objects.all().delete()
+    print(f"Deleted {num_posts_deleted} Posts.")
+
+    # Eliminar todos los registros de Suscriptor
+    num_suscriptors_deleted, _ = Suscriptor.objects.all().delete()
+    print(f"Deleted {num_suscriptors_deleted} Suscriptors.")
+
+
 try:
     Member.objects.get('admin')
 except:
-    Member.objects.create_user(
+    delete_all_data()
+    Member.objects.create_superuser(
         username="admin",
         password="admin"
     )
