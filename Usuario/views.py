@@ -5,7 +5,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from .serializers import MemberSerializer , SkillMembersSerializer, ProjectSerializer, PostSerializer, SuscriptorSerializer
 from .models import Member, Skill, Project, Post as Postdb, Suscriptor
 from rest_framework.response import Response
-
+    
 class MembersViewset(ReadOnlyModelViewSet):
     serializer_class = MemberSerializer
     queryset =  Member.objects.all()  

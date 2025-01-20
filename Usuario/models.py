@@ -1,7 +1,7 @@
+from typing import Iterable
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-
 
 class Skill(models.Model):
     skill_name = models.CharField(max_length=200, default=None)
@@ -41,7 +41,9 @@ class Post(models.Model):
     suggests = models.ManyToManyField('self', symmetrical=False, blank=True)
     status = models.IntegerField(choices=Status.choices, default=Status.UNPUBLISHED)
     date_time = models.DateTimeField(auto_now_add=True)
-    
+        
+    def __str__(self):
+        return self.title
     
 
 class Suscriptor(models.Model):
