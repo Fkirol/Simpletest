@@ -5,7 +5,7 @@ from .models import Member, Skill, Project, Post , Suscriptor
 class SuggestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ("id", "author", "title", "seo_title", "content", "status", "date_time")
+        fields = ("id", "author", "title", "seo_title","status", "date_time","featured_image")
 
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,7 +51,7 @@ class PostSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Post
-        fields = ("id", "author", "title", "seo_title", "content", "status", "date_time","suggest")
+        fields = ("id", "author", "title", "seo_title", "content", "status", "date_time","featured_image","suggest")
 
     def get_suggest(self, instance):
         

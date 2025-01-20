@@ -41,6 +41,7 @@ class Post(models.Model):
     suggests = models.ManyToManyField('self', symmetrical=False, blank=True)
     status = models.IntegerField(choices=Status.choices, default=Status.UNPUBLISHED)
     date_time = models.DateTimeField(auto_now_add=True)
+    featured_image = models.CharField(max_length=200,default=True,null=True)
         
     def __str__(self):
         return self.title
