@@ -18,7 +18,9 @@ routers.register('project', ProjectViewset, 'project')
 routers.register('post', PostViewset, 'post')
 routers.register('suscriptor', SuscriptorViewset, 'suscriptor')
 
+
 urlpatterns = [
     path('',include(routers.urls)),
+    #path('sendsuscription/',Send_Suscription.as_view())
     #path('members/skill/', SkillViewset.as_view())
 ]

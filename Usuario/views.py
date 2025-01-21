@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import RetrieveAPIView, ListAPIView, GenericAPIView, CreateAPIView
+from rest_framework.views import APIView
+from rest_framework.generics import  ListAPIView, CreateAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from .serializers import MemberSerializer , SkillMembersSerializer, ProjectSerializer, PostSerializer, SuscriptorSerializer
 from .models import Member, Skill, Project, Post as Postdb, Suscriptor
 from rest_framework.response import Response
+from django.core.mail import send_mail
+import os
     
 class MembersViewset(ReadOnlyModelViewSet):
     serializer_class = MemberSerializer
@@ -42,17 +45,43 @@ class PostViewset(ReadOnlyModelViewSet):
 
 class SuscriptorViewset(CreateAPIView, GenericViewSet):
     serializer_class = SuscriptorSerializer
+    
 
     def create(self, request, *args, **kwargs):
-        email = request.data.get('email')
+        try:
+            name = request.data.get('name')
+            email = request.data.get('email')
+            message = request.data.get('message')
+            please_suscribe = request.data.get('please_suscribe')
+            
+            please_suscribe = bool(please_suscribe)
+          
+            suscribe="No Suscribed"
+            if Suscriptor.objects.filter(email=email).exists():
+                
+                if please_suscribe==True:
+                    suscribe="Suscribed"
+            else:
+                if please_suscribe==True:
+                    serializer = self.get_serializer(data=request.data)
+                    serializer.is_valid(raise_exception=True)
+                    serializer.save()
+                    suscribe="Suscribed"
 
-        if Suscriptor.objects.filter(email=email).exists():
-            return Response({"status": "subscribed"}, status=status.HTTP_200_OK)
+            
+            send_mail(
+            name,
+            f"{email} {suscribe} {message}",
+            "bryanayala080808@gmail.com",
+            ["kirolukushi@gmail.com"],
+            fail_silently=True,
+            )
+            return Response({"Success":"El mensaje fue enviado con exito"},status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error":f"Ocurrio un error: {e}"},status=status.HTTP_408_REQUEST_TIMEOUT)
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"status": "done"}, status=status.HTTP_201_CREATED)
+
+        
     
 
                 
