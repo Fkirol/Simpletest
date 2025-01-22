@@ -10,7 +10,7 @@ class SuggestSerializer(serializers.ModelSerializer):
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = '__all__'
+        fields = ("id","last_login","is_superuser","username","first_name","last_name","email","is_staff","is_active","date_joined","presentation","profile_picture","phone_number","groups","user_permissions","skills")
         
 class ProjectSerializer(serializers.ModelSerializer):
     skills = serializers.SerializerMethodField(read_only=True)

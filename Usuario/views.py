@@ -80,13 +80,6 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
         except Exception as e:
             return Response({"error":f"Ocurrio un error: {e}"},status=status.HTTP_408_REQUEST_TIMEOUT)
         
-class Xd(CreateAPIView,GenericViewSet):
-    serializer_class = ProjectSerializer
-    def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
-
-        
     
 
                 

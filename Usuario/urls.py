@@ -7,7 +7,7 @@
 #]
 
 from django.urls import path,include
-from .views import MembersViewset, SkillViewset, ProjectViewset, PostViewset, SuscriptorViewset, Xd
+from .views import MembersViewset, SkillViewset, ProjectViewset, PostViewset, SuscriptorViewset
 from rest_framework import routers
 
 routers = routers.DefaultRouter()
@@ -17,8 +17,6 @@ routers.register('skill', SkillViewset, 'skill')
 routers.register('project', ProjectViewset, 'project')
 routers.register('post', PostViewset, 'post')
 routers.register('suscriptor', SuscriptorViewset, 'suscriptor')
-routers.register('xd', Xd, 'xd')
-
 
 urlpatterns = [
     path('',include(routers.urls)),

@@ -15,6 +15,10 @@ class Member(AbstractUser):
     profile_picture = models.CharField(max_length=200, default=None,null=True)
     phone_number = models.CharField(max_length=15,null=True)
     skills = models.ManyToManyField(Skill)
+    
+    def __str__(self):
+        return self.username
+
    
     
 class Project(models.Model):
@@ -49,3 +53,5 @@ class Post(models.Model):
 
 class Suscriptor(models.Model):
     email = models.EmailField(max_length=200,unique=True,default=None)
+    def __str__(self):
+        return self.email
