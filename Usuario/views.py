@@ -69,13 +69,13 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
                     suscribe="Suscribed"
 
             
-            send_mail(
-            name,
-            f"{email} {suscribe} {message}",
-            "bryanayala080808@gmail.com",
-            ["kirolukushi@gmail.com"],
-            fail_silently=True,
-            )
+            #send_mail(
+            #name,
+            #f"{email} {suscribe} {message}",
+            #"bryanayala080808@gmail.com",
+            #["kirolukushi@gmail.com"],
+            #fail_silently=True,
+            #)
             return Response({"Success":"El mensaje fue enviado con exito"},status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error":f"Ocurrio un error: {e}"},status=status.HTTP_408_REQUEST_TIMEOUT)
