@@ -8,9 +8,13 @@ class SuggestSerializer(serializers.ModelSerializer):
         fields = ("id", "author", "title", "seo_title","status", "date_time","featured_image")
 
 class MemberSerializer(serializers.ModelSerializer):
+    skills = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Member
         fields = ("id","last_login","is_superuser","username","first_name","last_name","email","is_staff","is_active","date_joined","presentation","profile_picture","phone_number","groups","user_permissions","skills")
+    
+    def get_skills(self,instance):
+            return SkillSerializer(instance.skills.all(), many=True).data
         
 class ProjectSerializer(serializers.ModelSerializer):
     skills = serializers.SerializerMethodField(read_only=True)
