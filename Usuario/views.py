@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import  ListAPIView, CreateAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
-from .serializers import MemberSerializer , SkillMembersSerializer, ProjectSerializer, PostSerializer, SuscriptorSerializer
+from .serializers import MemberSerializer , SkillMembersSerializer, ProjectSerializer, PostSerializer, SuscriptorSerializer, SuscribeSerializer
 from .models import Member, Skill, Project, Post as Postdb, Suscriptor
 from rest_framework.response import Response
 from django.core.mail import send_mail
@@ -81,8 +81,31 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
             return Response({"error":f"Ocurrio un error: {e}"},status=status.HTTP_408_REQUEST_TIMEOUT)
         
     
+class SuscribeViewset(CreateAPIView,GenericViewSet):
+    serializer_class = SuscribeSerializer
+    def create(self, request, *args, **kwargs): 
+        try:
+            email = request.data.get('email')
+            if Suscriptor.objects.filter(email=email).exists():
+                return Response({"Status":"Suscribed"},status=status.HTTP_200_OK)
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save() 
+            send_mail(
+            "Hola",
+            "Gracias por Suscribirte",
+            "bryanayala080808@gmail.com",
+            ["kirolukushi@gmail.com"],
+            fail_silently=True,
+            )
+            return Response({"Status":"Done"},status=status.HTTP_200_OK) 
+        except:
+                return Response({"error":f"Ocurrio un error:"},status=status.HTTP_408_REQUEST_TIMEOUT)
+          
+                   
+        
+        
 
-                
                 
                 
 

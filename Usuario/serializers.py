@@ -62,9 +62,9 @@ class PostSerializer(serializers.ModelSerializer):
         return SuggestSerializer(instance.suggests.all(), many=True).data
 
 class SuscriptorSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=200,write_only=True,required=False,allow_blank=True)
-    message = serializers.CharField(max_length=200,write_only=True,required=False,allow_blank=True)
-    email = serializers.EmailField(max_length=200)
+    name = serializers.CharField(max_length=200,write_only=True,required=True,allow_blank=False)
+    message = serializers.CharField(max_length=200,write_only=True,required=True,allow_blank=False)
+    email = serializers.EmailField(max_length=200,required=True,allow_blank=False)
     please_suscribe = serializers.BooleanField(write_only=True)
     
     def create(self, validated_data):
@@ -76,3 +76,9 @@ class SuscriptorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Suscriptor
         fields = "__all__"
+        
+class SuscribeSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=200,required=True,allow_blank=False)
+    class Meta:
+        model = Suscriptor
+        fields = ['email']
