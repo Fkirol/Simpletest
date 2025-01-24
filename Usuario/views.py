@@ -54,7 +54,6 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
             message = request.data.get('message')
             please_suscribe = request.data.get('please_suscribe')
             
-            
             please_suscribe = bool(please_suscribe)
           
             suscribe="No Suscribed"
