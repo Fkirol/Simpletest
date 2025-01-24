@@ -65,6 +65,7 @@ class SuscriptorSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=200,write_only=True,required=True,allow_blank=False)
     message = serializers.CharField(max_length=200,write_only=True,required=True,allow_blank=False)
     email = serializers.EmailField(max_length=200,required=True,allow_blank=False)
+    email = serializers.EmailField(max_length=200)
     please_suscribe = serializers.BooleanField(write_only=True)
     
     def create(self, validated_data):

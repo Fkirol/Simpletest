@@ -22,5 +22,5 @@ routers.register('suscribe', SuscribeViewset, 'suscribe')
 urlpatterns = [
     path('',include(routers.urls)),
     #path('suscribe/',SuscribeViewset.as_view())
-    #path('members/skill/', SkillViewset.as_view())
+    #path('members/skill/', SkillViewset.as_view)
 ]
