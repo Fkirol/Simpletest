@@ -62,8 +62,8 @@ class PostSerializer(serializers.ModelSerializer):
         return SuggestSerializer(instance.suggests.all(), many=True).data
 
 class SuscriptorSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(max_length=200,write_only=True)
-    message = serializers.CharField(max_length=200,write_only=True)
+    name = serializers.CharField(max_length=200,write_only=True,required=False,allow_blank=True)
+    message = serializers.CharField(max_length=200,write_only=True,required=False,allow_blank=True)
     email = serializers.EmailField(max_length=200)
     please_suscribe = serializers.BooleanField(write_only=True)
     
@@ -71,7 +71,7 @@ class SuscriptorSerializer(serializers.ModelSerializer):
         validated_data.pop("name")
         validated_data.pop("message")
         validated_data.pop("please_suscribe")
-        return super().create(validated_data)
+        return super().create(validated_data) 
     
     class Meta:
         model = Suscriptor
