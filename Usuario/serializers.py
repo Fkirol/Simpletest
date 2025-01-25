@@ -82,3 +82,6 @@ class SuscribeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Suscriptor
         fields = ['email']
+        
+class PinterestImageSerializer(serializers.Serializer):
+    board_url = serializers.CharField(max_length=1000,required=False)

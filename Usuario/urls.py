@@ -7,7 +7,7 @@
 #]
 
 from django.urls import path,include
-from .views import MembersViewset, SkillViewset, ProjectViewset, PostViewset, SuscriptorViewset, SuscribeViewset
+from .views import MembersViewset, SkillViewset, ProjectViewset, PostViewset, SuscriptorViewset, SuscribeViewset, PinterestScraperView
 from rest_framework import routers
 
 routers = routers.DefaultRouter()
@@ -18,9 +18,10 @@ routers.register('project', ProjectViewset, 'project')
 routers.register('post', PostViewset, 'post')
 routers.register('suscriptor', SuscriptorViewset, 'suscriptor')
 routers.register('suscribe', SuscribeViewset, 'suscribe')
+#routers.register('pinterestscrap', PinterestScraperView, 'pinterestscrap')
 
 urlpatterns = [
     path('',include(routers.urls)),
-    #path('suscribe/',SuscribeViewset.as_view())
+    path('pinterestscrap/',PinterestScraperView.as_view())
     #path('members/skill/', SkillViewset.as_view)
 ]

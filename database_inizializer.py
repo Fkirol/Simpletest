@@ -9,8 +9,12 @@ from Usuario.models import Member, Post
 from django.contrib.auth.hashers import make_password 
 from django.contrib.auth import get_user_model
 from Usuario.models import Skill, Member, Project, Post, Suscriptor  # Reemplaza 'app' con tu app
+from Usuario.utils import scrape_pinterest_board
 
 User = get_user_model() # Obten el modelo de usuario configurado
+
+PINTEREST_URL = "https://es.pinterest.com/ideas/"
+
 def create_skills():
     skills_data = [
         {"skill_name": "Python", "skill_description": "Programming language"},
@@ -115,10 +119,20 @@ def create_members(skills):
         },
      ]
     members = []
-    for data in members_data:
+
+    scraped_images = scrape_pinterest_board(PINTEREST_URL)
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
+
+    for i, data in enumerate(members_data):
         skills = data.pop('skills') #pop para extraer las skills del diccionario
         password = make_password(data.pop('password'))
-        member = Member.objects.create(**data,password=password)
+
+        #Asignar imagen si hay disponible
+        image_url = scraped_images[i % len(scraped_images)]['image_url'] if i < len(scraped_images) else 'default.jpg'
+
+        member = Member.objects.create(**data,password=password,profile_picture=image_url)
         member.skills.set(skills) # Usamos set para agregar la lista de skills
         members.append(member)
     return members
@@ -198,9 +212,16 @@ def create_projects(skills):
         },
     ]
     projects = []
-    for data in projects_data:
+    scraped_images = scrape_pinterest_board(PINTEREST_URL)
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
+    for i, data in enumerate(projects_data):
       skills_data = data.pop('skills') #pop para extraer las skills del diccionario
-      project = Project.objects.create(**data)
+
+      image_url = scraped_images[i % len(scraped_images)]['image_url'] if i < len(scraped_images) else 'default.jpg'
+
+      project = Project.objects.create(**data,featured_image=image_url)
       project.skills.set(skills_data) # Usamos set para agregar la lista de skills
       projects.append(project)
     return projects
@@ -290,9 +311,20 @@ def create_posts(members):
 
     ]
     posts = []
-    for data in posts_data:
+
+    scraped_images = scrape_pinterest_board(PINTEREST_URL)
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
+
+
+    for i, data in enumerate(posts_data):
         suggested_posts = data.pop('suggests')
-        post = Post.objects.create(**data)
+
+        image_url = scraped_images[i % len(scraped_images)]['image_url'] if i < len(scraped_images) else 'default.jpg'
+
+
+        post = Post.objects.create(**data,image=image_url)
         post.suggests.set(suggested_posts)
         posts.append(post)
 

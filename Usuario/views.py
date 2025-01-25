@@ -3,11 +3,12 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import  ListAPIView, CreateAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
-from .serializers import MemberSerializer , SkillMembersSerializer, ProjectSerializer, PostSerializer, SuscriptorSerializer, SuscribeSerializer
+from .serializers import MemberSerializer , SkillMembersSerializer, ProjectSerializer, PostSerializer, SuscriptorSerializer, SuscribeSerializer, PinterestImageSerializer
 from .models import Member, Skill, Project, Post as Postdb, Suscriptor
 from rest_framework.response import Response
 from django.core.mail import send_mail
 import os
+from . import utils
     
 class MembersViewset(ReadOnlyModelViewSet):
     serializer_class = MemberSerializer
@@ -103,7 +104,27 @@ class SuscribeViewset(CreateAPIView,GenericViewSet):
             return Response({"Status":"Done"},status=status.HTTP_200_OK) 
         except Exception as e:
                 return Response({"error":f"Ocurrio un error: {e}"},status=status.HTTP_408_REQUEST_TIMEOUT)
-          
+            
+class PinterestScraperView(APIView):
+    serializer_class = PinterestImageSerializer
+    def post(self, request):
+        board_url = request.data.get('board_url')
+        print(board_url)
+        if not board_url:
+            return Response({'error': 'Se requiere la URL del tablero.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        scraped_data = utils.scrape_pinterest_board(board_url)
+        #print(scraped_data)
+        if scraped_data is None:
+            return Response({'error': 'Error al hacer scraping en el tablero'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        serializer = PinterestImageSerializer(data=scraped_data, many=True)
+        if serializer.is_valid():
+            return Response(scraped_data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
                    
         
         
