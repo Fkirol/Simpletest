@@ -47,7 +47,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
     serializer_class = SuscriptorSerializer
     
 
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         try:
             name = request.data.get('name')
             email = request.data.get('email')
@@ -101,8 +101,8 @@ class SuscribeViewset(CreateAPIView,GenericViewSet):
             fail_silently=True,
             )
             return Response({"Status":"Done"},status=status.HTTP_200_OK) 
-        except:
-                return Response({"error":f"Ocurrio un error:"},status=status.HTTP_408_REQUEST_TIMEOUT)
+        except Exception as e:
+                return Response({"error":f"Ocurrio un error: {e}"},status=status.HTTP_408_REQUEST_TIMEOUT)
           
                    
         
