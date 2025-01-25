@@ -41,7 +41,6 @@ def create_members(skills):
             "username": "john_doe",
             "password": "password123",  # Usar make_password para hashear
             "presentation": "Software developer with experience in Python and Django",
-            "profile_picture": "",
             "phone_number": "555-1234",
             "skills": [skills[0],skills[2],skills[5]]  # Skills Python,Django,SQL
         },
@@ -49,7 +48,6 @@ def create_members(skills):
             "username": "jane_smith",
             "password": "securepass",  # Usar make_password para hashear
             "presentation": "Frontend developer specializing in React",
-            "profile_picture": "",
             "phone_number": "555-5678",
              "skills": [skills[1],skills[3],skills[7]]   #Skills Javascript,React,CSS
          },
@@ -57,7 +55,6 @@ def create_members(skills):
              "username": "peter_jones",
             "password": "mypassword",  # Usar make_password para hashear
             "presentation": "System administrator with experience in Docker and AWS",
-            "profile_picture": "",
              "phone_number": "555-9012",
              "skills": [skills[4],skills[9],skills[5]]  #Skills Docker,AWS,SQL
         },
@@ -65,7 +62,6 @@ def create_members(skills):
             "username": "lisa_brown",
             "password": "lisa123",  # Usar make_password para hashear
             "presentation": "Web designer with expertise in HTML and CSS",
-            "profile_picture": "",
             "phone_number": "555-3456",
             "skills": [skills[6], skills[7]] #Skills HTML,CSS
          },
@@ -73,7 +69,6 @@ def create_members(skills):
             "username": "mike_williams",
              "password": "secure123",  # Usar make_password para hashear
              "presentation": "Data scientist with experience in SQL and Python",
-            "profile_picture": "",
             "phone_number": "555-7890",
              "skills": [skills[0],skills[5]]  #Skills Python,SQL
          },
@@ -81,7 +76,6 @@ def create_members(skills):
             "username": "sarah_miller",
             "password": "sarah123",  # Usar make_password para hashear
             "presentation": "Fullstack developer with knowledge in Django and React",
-            "profile_picture": "",
             "phone_number": "555-2345",
             "skills": [skills[2], skills[3]] #Skills Django,React
           },
@@ -89,7 +83,6 @@ def create_members(skills):
             "username": "david_garcia",
             "password": "david123",  # Usar make_password para hashear
             "presentation": "Software engineer with experience in Git and Python",
-            "profile_picture": "",
             "phone_number": "555-6789",
            "skills": [skills[0],skills[8]]  #Skills Python,Git
          },
@@ -97,7 +90,6 @@ def create_members(skills):
             "username": "emily_davis",
             "password": "emily123",  # Usar make_password para hashear
             "presentation": "Cloud engineer specializing in AWS",
-            "profile_picture": "",
             "phone_number": "555-0123",
             "skills": [skills[9],skills[4]]   #Skills AWS,Docker
         },
@@ -105,7 +97,6 @@ def create_members(skills):
              "username": "brian_anderson",
              "password": "brian123",  # Usar make_password para hashear
             "presentation": "Database administrator with expertise in SQL",
-            "profile_picture": "",
              "phone_number": "555-4567",
              "skills": [skills[5]]  #Skills SQL
          },
@@ -113,7 +104,6 @@ def create_members(skills):
               "username": "olivia_martinez",
              "password": "olivia123",  # Usar make_password para hashear
              "presentation": "Web developer with skills in JavaScript, HTML, and CSS",
-              "profile_picture": "",
              "phone_number": "555-8901",
              "skills": [skills[1], skills[6], skills[7]]  #Skills Javascript,HTML,CSS
         },
@@ -142,70 +132,60 @@ def create_projects(skills):
     projects_data = [
          {
             "name": "E-commerce Platform",
-            "featured_image": "",
             "description": "Web platform for online shopping",
             "url": "https://ecommerce.example.com",
             "skills": [skills[0], skills[2], skills[6], skills[7]] #Python, Django, HTML, CSS
         },
         {
             "name": "Task Management App",
-            "featured_image": "",
             "description": "Application for managing tasks and projects",
             "url": "https://taskmanager.example.com",
            "skills": [skills[1], skills[3], skills[5]] #JavaScript, React, SQL
          },
         {
             "name": "Blog Website",
-            "featured_image": "",
             "description": "A simple blog website",
              "url": "https://blog.example.com",
             "skills": [skills[0],skills[2], skills[6]] #Python, Django, HTML
           },
         {
             "name": "Portfolio Website",
-            "featured_image": "",
             "description": "Website for showcasing a personal portfolio",
            "url": "https://portfolio.example.com",
             "skills": [skills[1], skills[6], skills[7]] #JavaScript, HTML, CSS
          },
          {
              "name": "Weather App",
-            "featured_image": "",
             "description": "Application for getting weather information",
              "url": "https://weatherapp.example.com",
              "skills": [skills[1], skills[3]] #JavaScript, React
         },
         {
             "name": "Inventory System",
-            "featured_image": "",
             "description": "System for managing inventory of products",
              "url": "https://inventory.example.com",
             "skills": [skills[0], skills[2], skills[5]] #Python, Django, SQL
         },
         {
             "name": "Social Media Platform",
-            "featured_image": "",
             "description": "Platform for social interactions",
             "url": "https://socialmedia.example.com",
             "skills": [skills[1], skills[3], skills[6], skills[7]] #JavaScript, React, HTML, CSS
          },
         {
            "name": "Document Management System",
-            "featured_image": "",
             "description": "System for managing and organizing documents",
             "url": "https://documentmanager.example.com",
            "skills": [skills[0], skills[4],skills[5]] #Python, Docker, SQL
          },
         {
             "name": "Cloud Deployment Platform",
-             "featured_image": "",
             "description": "Platform for deploying applications to the cloud",
             "url": "https://cloud.example.com",
              "skills": [skills[4], skills[9]] #Docker, AWS
           },
          {
              "name": "Real-Time Chat Application",
-             "featured_image": "",
             "description": "Application for real-time messaging",
             "url": "https://chat.example.com",
            "skills": [skills[1], skills[3]] #JavaScript, React
