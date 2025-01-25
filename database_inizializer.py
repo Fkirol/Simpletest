@@ -109,15 +109,20 @@ def create_members(skills):
     if not scraped_images:
         print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
         return []
-    members = []
-    for i, data in members_data:
+
+    for i, data in enumerate(members_data):
         skills = data.pop('skills') #pop para extraer las skills del diccionario
         password = make_password(data.pop('password'))
+
+        #Asignar imagen si hay disponible
         image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+
         member = Member.objects.create(**data,password=password,profile_picture=image_url)
         member.skills.set(skills) # Usamos set para agregar la lista de skills
         members.append(member)
     return members
+
+
 
 
 def create_projects(skills):
