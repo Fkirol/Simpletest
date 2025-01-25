@@ -75,7 +75,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
             f"Hola, {name}",
             f"{email} {suscribe} {message}",
             "bryanayala080808@gmail.com",
-            ["kirolukushi@gmail.com"],
+            ["kirolukushi@gmail.com","martinezotano972@gmail.com"],
             fail_silently=True,
             )
             return Response({"Success":"El mensaje fue enviado con exito"},status=status.HTTP_200_OK)
