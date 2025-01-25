@@ -105,6 +105,7 @@ def create_members(skills):
              "skills": [skills[1], skills[6], skills[7]]  #Skills Javascript,HTML,CSS
         },
      ]
+    members = []
     scraped_images = scrape_pinterest_board("https://es.pinterest.com/ideas/")
     if not scraped_images:
         print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
