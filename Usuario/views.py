@@ -59,8 +59,10 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
             suscribe="No Suscribed"
             if Suscriptor.objects.filter(email=email).exists():
                 
-                if please_suscribe==True:
+                if please_suscribe==False:
                     suscribe="Suscribed"
+                else:
+                    suscribe="Suscribe"
             else:
                 if please_suscribe==True:
                     serializer = self.get_serializer(data=request.data)
@@ -70,7 +72,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
 
             
             send_mail(
-            name,
+            f"Hola, {name}",
             f"{email} {suscribe} {message}",
             "bryanayala080808@gmail.com",
             ["kirolukushi@gmail.com"],
