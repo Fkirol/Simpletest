@@ -130,7 +130,7 @@ def create_members(skills):
         password = make_password(data.pop('password'))
 
         #Asignar imagen si hay disponible
-        image_url = scraped_images[i % len(scraped_images)]['image_url'] if i < len(scraped_images) else 'default.jpg'
+        image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
 
         member = Member.objects.create(**data,password=password,profile_picture=image_url)
         member.skills.set(skills) # Usamos set para agregar la lista de skills
@@ -219,7 +219,7 @@ def create_projects(skills):
     for i, data in enumerate(projects_data):
       skills_data = data.pop('skills') #pop para extraer las skills del diccionario
 
-      image_url = scraped_images[i % len(scraped_images)]['image_url'] if i < len(scraped_images) else 'default.jpg'
+      image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
 
       project = Project.objects.create(**data,featured_image=image_url)
       project.skills.set(skills_data) # Usamos set para agregar la lista de skills
@@ -321,7 +321,7 @@ def create_posts(members):
     for i, data in enumerate(posts_data):
         suggested_posts = data.pop('suggests')
 
-        image_url = scraped_images[i % len(scraped_images)]['image_url'] if i < len(scraped_images) else 'default.jpg'
+        image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
 
 
         post = Post.objects.create(**data,image=image_url)
