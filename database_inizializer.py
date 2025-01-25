@@ -9,6 +9,7 @@ from Usuario.models import Member, Post
 from django.contrib.auth.hashers import make_password 
 from django.contrib.auth import get_user_model
 from Usuario.models import Skill, Member, Project, Post, Suscriptor  # Reemplaza 'app' con tu app
+from Usuario.utils import scrape_pinterest_board
 
 User = get_user_model() # Obten el modelo de usuario configurado
 def create_skills():
@@ -37,7 +38,6 @@ def create_members(skills):
             "username": "john_doe",
             "password": "password123",  # Usar make_password para hashear
             "presentation": "Software developer with experience in Python and Django",
-            "profile_picture": "john_doe.jpg",
             "phone_number": "555-1234",
             "skills": [skills[0],skills[2],skills[5]]  # Skills Python,Django,SQL
         },
@@ -45,7 +45,6 @@ def create_members(skills):
             "username": "jane_smith",
             "password": "securepass",  # Usar make_password para hashear
             "presentation": "Frontend developer specializing in React",
-            "profile_picture": "jane_smith.jpg",
             "phone_number": "555-5678",
              "skills": [skills[1],skills[3],skills[7]]   #Skills Javascript,React,CSS
          },
@@ -53,7 +52,6 @@ def create_members(skills):
              "username": "peter_jones",
             "password": "mypassword",  # Usar make_password para hashear
             "presentation": "System administrator with experience in Docker and AWS",
-            "profile_picture": "peter_jones.jpg",
              "phone_number": "555-9012",
              "skills": [skills[4],skills[9],skills[5]]  #Skills Docker,AWS,SQL
         },
@@ -61,7 +59,6 @@ def create_members(skills):
             "username": "lisa_brown",
             "password": "lisa123",  # Usar make_password para hashear
             "presentation": "Web designer with expertise in HTML and CSS",
-            "profile_picture": "lisa_brown.jpg",
             "phone_number": "555-3456",
             "skills": [skills[6], skills[7]] #Skills HTML,CSS
          },
@@ -69,7 +66,6 @@ def create_members(skills):
             "username": "mike_williams",
              "password": "secure123",  # Usar make_password para hashear
              "presentation": "Data scientist with experience in SQL and Python",
-            "profile_picture": "mike_williams.jpg",
             "phone_number": "555-7890",
              "skills": [skills[0],skills[5]]  #Skills Python,SQL
          },
@@ -77,7 +73,6 @@ def create_members(skills):
             "username": "sarah_miller",
             "password": "sarah123",  # Usar make_password para hashear
             "presentation": "Fullstack developer with knowledge in Django and React",
-            "profile_picture": "sarah_miller.jpg",
             "phone_number": "555-2345",
             "skills": [skills[2], skills[3]] #Skills Django,React
           },
@@ -85,7 +80,6 @@ def create_members(skills):
             "username": "david_garcia",
             "password": "david123",  # Usar make_password para hashear
             "presentation": "Software engineer with experience in Git and Python",
-            "profile_picture": "david_garcia.jpg",
             "phone_number": "555-6789",
            "skills": [skills[0],skills[8]]  #Skills Python,Git
          },
@@ -93,7 +87,6 @@ def create_members(skills):
             "username": "emily_davis",
             "password": "emily123",  # Usar make_password para hashear
             "presentation": "Cloud engineer specializing in AWS",
-            "profile_picture": "emily_davis.jpg",
             "phone_number": "555-0123",
             "skills": [skills[9],skills[4]]   #Skills AWS,Docker
         },
@@ -101,7 +94,6 @@ def create_members(skills):
              "username": "brian_anderson",
              "password": "brian123",  # Usar make_password para hashear
             "presentation": "Database administrator with expertise in SQL",
-            "profile_picture": "brian_anderson.jpg",
              "phone_number": "555-4567",
              "skills": [skills[5]]  #Skills SQL
          },
@@ -109,16 +101,20 @@ def create_members(skills):
               "username": "olivia_martinez",
              "password": "olivia123",  # Usar make_password para hashear
              "presentation": "Web developer with skills in JavaScript, HTML, and CSS",
-              "profile_picture": "olivia_martinez.jpg",
              "phone_number": "555-8901",
              "skills": [skills[1], skills[6], skills[7]]  #Skills Javascript,HTML,CSS
         },
      ]
+    scraped_images = scrape_pinterest_board("https://es.pinterest.com/ideas/")
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
     members = []
-    for data in members_data:
+    for i, data in members_data:
         skills = data.pop('skills') #pop para extraer las skills del diccionario
         password = make_password(data.pop('password'))
-        member = Member.objects.create(**data,password=password)
+        image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+        member = Member.objects.create(**data,password=password,profile_picture=image_url)
         member.skills.set(skills) # Usamos set para agregar la lista de skills
         members.append(member)
     return members
