@@ -194,9 +194,9 @@ def create_projects(skills):
     if not scraped_images:
         print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
         return []
-    for i, data in projects_data:
+    for  data in projects_data:
       skills_data = data.pop('skills') #pop para extraer las skills del diccionario
-      image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+      image_url = scraped_images[data % len(scraped_images)]['image'] if data < len(scraped_images) else 'default.jpg'
       project = Project.objects.create(**data,featured_image=image_url)
       project.skills.set(skills_data) # Usamos set para agregar la lista de skills
       projects.append(project)
