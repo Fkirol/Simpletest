@@ -48,7 +48,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
     serializer_class = SuscriptorSerializer
     
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         try:
             name = request.data.get('name')
             email = request.data.get('email')
@@ -86,7 +86,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
     
 class SuscribeViewset(CreateAPIView,GenericViewSet):
     serializer_class = SuscribeSerializer
-    def post(self, request, *args, **kwargs): 
+    def create(self, request, *args, **kwargs): 
         try:
             email = request.data.get('email')
             if Suscriptor.objects.filter(email=email).exists():
