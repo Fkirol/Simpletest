@@ -130,79 +130,74 @@ def create_projects(skills):
     projects_data = [
          {
             "name": "E-commerce Platform",
-            "featured_image": "ecommerce.jpg",
             "description": "Web platform for online shopping",
             "url": "https://ecommerce.example.com",
             "skills": [skills[0], skills[2], skills[6], skills[7]] #Python, Django, HTML, CSS
         },
         {
             "name": "Task Management App",
-            "featured_image": "task_management.jpg",
             "description": "Application for managing tasks and projects",
             "url": "https://taskmanager.example.com",
            "skills": [skills[1], skills[3], skills[5]] #JavaScript, React, SQL
          },
         {
             "name": "Blog Website",
-            "featured_image": "blog.jpg",
             "description": "A simple blog website",
              "url": "https://blog.example.com",
             "skills": [skills[0],skills[2], skills[6]] #Python, Django, HTML
           },
         {
             "name": "Portfolio Website",
-            "featured_image": "portfolio.jpg",
             "description": "Website for showcasing a personal portfolio",
            "url": "https://portfolio.example.com",
             "skills": [skills[1], skills[6], skills[7]] #JavaScript, HTML, CSS
          },
          {
              "name": "Weather App",
-            "featured_image": "weather.jpg",
             "description": "Application for getting weather information",
              "url": "https://weatherapp.example.com",
              "skills": [skills[1], skills[3]] #JavaScript, React
         },
         {
             "name": "Inventory System",
-            "featured_image": "inventory.jpg",
             "description": "System for managing inventory of products",
              "url": "https://inventory.example.com",
             "skills": [skills[0], skills[2], skills[5]] #Python, Django, SQL
         },
         {
             "name": "Social Media Platform",
-            "featured_image": "social_media.jpg",
             "description": "Platform for social interactions",
             "url": "https://socialmedia.example.com",
             "skills": [skills[1], skills[3], skills[6], skills[7]] #JavaScript, React, HTML, CSS
          },
         {
            "name": "Document Management System",
-            "featured_image": "document_management.jpg",
             "description": "System for managing and organizing documents",
             "url": "https://documentmanager.example.com",
            "skills": [skills[0], skills[4],skills[5]] #Python, Docker, SQL
          },
         {
             "name": "Cloud Deployment Platform",
-             "featured_image": "cloud.jpg",
             "description": "Platform for deploying applications to the cloud",
             "url": "https://cloud.example.com",
              "skills": [skills[4], skills[9]] #Docker, AWS
           },
          {
              "name": "Real-Time Chat Application",
-             "featured_image": "chat.jpg",
             "description": "Application for real-time messaging",
             "url": "https://chat.example.com",
            "skills": [skills[1], skills[3]] #JavaScript, React
         },
     ]
     projects = []
+    scraped_images = scrape_pinterest_board("https://es.pinterest.com/ideas/")
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
     for data in projects_data:
       skills_data = data.pop('skills') #pop para extraer las skills del diccionario
-      project = Project.objects.create(**data)
+      image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+      project = Project.objects.create(**data,featured_image=image_url)
       project.skills.set(skills_data) # Usamos set para agregar la lista de skills
       projects.append(project)
     return projects
@@ -361,7 +356,8 @@ except:
     delete_all_data()
     Member.objects.create_superuser(
         username="admin",
-        password="admin"
+        password="admin",
+        profile_picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFiXgfcBgdIhvWXh0KJcIypUIGJ_x1-dGOOQ&s"
     )
     print("Creating Skills...")
     skills = create_skills()
