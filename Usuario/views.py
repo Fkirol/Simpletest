@@ -48,7 +48,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
     serializer_class = SuscriptorSerializer
     
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
             name = request.data.get('name')
             email = request.data.get('email')
@@ -57,19 +57,14 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
             
             please_suscribe = bool(please_suscribe)
           
-            suscribe="No Suscribed"
-            if Suscriptor.objects.filter(email=email).exists():
-                
-                if please_suscribe==False:
-                    suscribe="Suscribed"
-                else:
-                    suscribe="Suscribe"
+            if please_suscribe==False:
+                suscribe="Not Suscribed"
             else:
-                if please_suscribe==True:
-                    serializer = self.get_serializer(data=request.data)
-                    serializer.is_valid(raise_exception=True)
-                    serializer.save()
-                    suscribe="Suscribed"
+                suscribe="Suscribed"
+                serializer = self.get_serializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                suscribe="Suscribed"
 
             
             send_mail(
@@ -86,7 +81,7 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
     
 class SuscribeViewset(CreateAPIView,GenericViewSet):
     serializer_class = SuscribeSerializer
-    def create(self, request, *args, **kwargs): 
+    def post(self, request): 
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
