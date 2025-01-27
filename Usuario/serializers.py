@@ -77,11 +77,21 @@ class SuscriptorSerializer(serializers.ModelSerializer):
         model = Suscriptor
         fields = "__all__"
         
+    def validate_email(self, value):
+        if Suscriptor.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Este correo electronico ya esta en uso")
+        return value
+        
 class SuscribeSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(max_length=200,required=True,allow_blank=False)
+    email = serializers.EmailField(max_length=200,required=True)
     class Meta:
         model = Suscriptor
         fields = ['email']
+        
+    def validate_email(self, value):
+        if Suscriptor.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Este correo electronico ya esta en uso")
+        return value
         
 class PinterestImageSerializer(serializers.Serializer):
     board_url = serializers.CharField(max_length=1000,required=False)

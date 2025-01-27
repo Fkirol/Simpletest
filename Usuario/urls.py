@@ -22,6 +22,7 @@ routers.register('suscribe', SuscribeViewset, 'suscribe')
 
 urlpatterns = [
     path('',include(routers.urls)),
-    path('pinterestscrap/',PinterestScraperView.as_view())
+    path('pinterestscrap/',PinterestScraperView.as_view()),
+    #path('suscribe/',SuscribeViewset.as_view())
     #path('members/skill/', SkillViewset.as_view)
 ]
