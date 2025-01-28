@@ -297,14 +297,9 @@ def create_posts(members):
 
     ]
     posts = []
-    scraped_images = scrape_pinterest_board("https://comic-indies.pixiv.net/about")
-    if not scraped_images:
-        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
-        return []
-    for i, data in enumerate(posts_data):
+    for data in posts_data:
         suggested_posts = data.pop('suggests')
-        image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
-        post = Post.objects.create(**data,featured_image=image_url)
+        post = Post.objects.create(**data)
         post.suggests.set(suggested_posts)
         posts.append(post)
 
