@@ -287,9 +287,14 @@ def create_posts(members):
 
     ]
     posts = []
-    for data in posts_data:
+    scraped_images = scrape_pinterest_board("https://www.google.com/search?sca_esv=d39e03e441b590ae&sxsrf=AHTn8zr2KuNkmo54jcpROqwUI4tnu9yNsg:1738031962011&q=raiden+shogun&udm=2&fbs=ABzOT_BnMAgCWdhr5zilP5f1cnRvK9uZj3HA_MTJAA6lXR8yQElaIApxtef1-RKg2CcwxXZnqg64bfoybsGPOYNWqi2whGVY0R6EoWFHXHDg_4sXVx_me3Otm1gopVxh-lragEfI9w2Q5GcBgT_kR50BMeRvvASD86ZE6ZBMlDmELJdXX2VE9zVRvvpKP7NimN6klsat0pVkWWV6P1KSq--5KFUHX8I7Jg&sa=X&ved=2ahUKEwitydDNsZeLAxWDQjABHR3JAKEQtKgLegQIERAB&biw=1315&bih=643&dpr=1")
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
+    for i, data in enumerate(posts_data):
         suggested_posts = data.pop('suggests')
-        post = Post.objects.create(**data)
+        image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+        post = Post.objects.create(**data,featured_image=image_url)
         post.suggests.set(suggested_posts)
         posts.append(post)
 
