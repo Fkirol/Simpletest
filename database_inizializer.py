@@ -209,7 +209,6 @@ def create_posts(members):
             "title": "First Steps with Django",
             "seo_title": "first-steps-with-django",
             "content": "This is the first article about Django.",
-            "featured_image": "https://www.instagram.com/waifu_posting_hololive/p/CdTuKP2u6Fl/",
               "suggests": [],
              "status": Post.Status.PUBLISHED
         },
@@ -218,7 +217,6 @@ def create_posts(members):
             "title": "Introduction to React",
             "seo_title": "introduction-to-react",
              "content": "This is an introductory article about React.",
-             "featured_image": "https://co.pinterest.com/pin/monas-chinas-animes-por-cierto-u--622833823471593702/",
              "suggests": [],
             "status": Post.Status.PUBLISHED
         },
@@ -236,7 +234,6 @@ def create_posts(members):
             "title": "Styling with CSS",
             "seo_title": "styling-with-css",
             "content": "This article focuses on styling web pages with CSS.",
-             "featured_image": "https://www.reddit.com/r/Genshin_Impact/comments/101gaou/raiden_shogun_art_by_me/?rdt=34605",
               "suggests": [],
               "status": Post.Status.PUBLISHED
          },
@@ -245,7 +242,6 @@ def create_posts(members):
             "title": "Advanced Python Techniques",
              "seo_title": "advanced-python-techniques",
             "content": "This post covers advanced Python techniques.",
-             "featured_image": "https://www.hoyolab.com/article/31310760",
              "suggests": [],
              "status": Post.Status.PUBLISHED
         },
@@ -254,7 +250,6 @@ def create_posts(members):
              "title": "Building a Fullstack App with Django and React",
             "seo_title": "fullstack-django-react",
             "content": "This article explains how to combine Django and React.",
-             "featured_image": "https://bishoujocomplex.com/products/raiden-shogun-casual-g14",
              "suggests": [],
             "status": Post.Status.PUBLISHED
          },
@@ -263,7 +258,6 @@ def create_posts(members):
             "title": "Git Workflow",
             "seo_title": "git-workflow",
             "content": "This post focuses on Git workflow strategies.",
-             "featured_image": "https://co.pinterest.com/pin/monas-chinas-animes-por-cierto-u--622833823471593702/",
            "suggests": [],
             "status": Post.Status.PUBLISHED
          },
@@ -272,7 +266,6 @@ def create_posts(members):
             "title": "AWS Basics",
              "seo_title": "aws-basics",
             "content": "This post is a guide to basic AWS concepts.",
-             "featured_image": "https://co.pinterest.com/pin/monas-chinas-animes-por-cierto-u--622833823471593702/",
              "suggests": [],
             "status": Post.Status.PUBLISHED
           },
@@ -281,7 +274,6 @@ def create_posts(members):
              "title": "SQL Queries",
             "seo_title": "sql-queries",
              "content": "This is an article about basic SQL queries.",
-             "featured_image": "https://co.pinterest.com/pin/monas-chinas-animes-por-cierto-u--622833823471593702/",
               "suggests": [],
               "status": Post.Status.PUBLISHED
           },
@@ -290,16 +282,20 @@ def create_posts(members):
             "title": "Web Development Basics",
             "seo_title": "web-development-basics",
            "content": "This article is for the beginners in web development.",
-             "featured_image": "https://co.pinterest.com/pin/monas-chinas-animes-por-cierto-u--622833823471593702/",
            "suggests": [],
            "status": Post.Status.PUBLISHED
          }
 
     ]
     posts = []
-    for data in posts_data:
+    scraped_images = scrape_pinterest_board("https://es.pinterest.com/ideas/")
+    if not scraped_images:
+        print("No se pudieron obtener imágenes de Pinterest, asegurate de que la URL es valida")
+        return []
+    for i,data in enumerate(posts_data):
         suggested_posts = data.pop('suggests')
-        post = Post.objects.create(**data)
+        image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+        post = Post.objects.create(**data,featured_image=image_url)
         post.suggests.set(suggested_posts)
         posts.append(post)
 
