@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 import os
 from . import utils
+from django.db.models import Q
     
 class MembersViewset(ReadOnlyModelViewSet):
     serializer_class = MemberSerializer
@@ -21,6 +22,11 @@ class SkillViewset(ListAPIView,GenericViewSet):
 class ProjectViewset(ListAPIView,GenericViewSet):
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
+    def get_queryset(self):
+        query = self.request.query_params.get('q', None)
+        if query:
+            return Project.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        return Project.objects.all()
     
 class PostViewset(ReadOnlyModelViewSet):
     serializer_class = PostSerializer
