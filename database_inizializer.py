@@ -295,6 +295,9 @@ def create_posts(members):
     for i,data in enumerate(posts_data):
         suggested_posts = data.pop('suggests')
         image_url = scraped_images[i % len(scraped_images)]['image'] if i < len(scraped_images) else 'default.jpg'
+        if 'featured_image' in data:
+         del data['featured_image']
+
         post = Post.objects.create(**data,featured_image=image_url)
         post.suggests.set(suggested_posts)
         posts.append(post)
