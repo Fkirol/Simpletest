@@ -76,10 +76,10 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
 
             
             send_mail(
-            f"Hola, {name}",
-            f"{email} {suscribe} {message}",
-            "bryanayala080808@gmail.com",
-            ["kirolukushi@gmail.com","martinezotano972@gmail.com"],
+            f"Hello, {name}",
+            f"This is your email:{email},                Status:{suscribe}                    Message:{message}",
+            "codeslayersdevs@gmail.com",
+            [f"{email}"],
             fail_silently=True,
             )
             return Response({"Success":"El mensaje fue enviado con exito"},status=status.HTTP_200_OK)
@@ -99,9 +99,9 @@ class SuscribeViewset(CreateAPIView,GenericViewSet):
             serializer.save() 
             
             send_mail(
-            "Hola",
-            "Gracias por Suscribirte",
-            "bryanayala080808@gmail.com",
+            "Hello there",
+            "We're glad to have you on board!",
+            "codeslayersdevs@gmail.com",
             [f'{email}'],
             fail_silently=True,
             )
