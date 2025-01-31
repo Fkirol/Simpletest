@@ -10,6 +10,7 @@ from django.core.mail import send_mail
 import os
 from . import utils
 from django.db.models import Q
+from .templates.emails import *
     
 class MembersViewset(ReadOnlyModelViewSet):
     serializer_class = MemberSerializer
@@ -76,10 +77,19 @@ class SuscriptorViewset(CreateAPIView, GenericViewSet):
 
             
             send_mail(
-            f"Hello, {name}",
-            f"This is your email:{email},                Status:{suscribe}                    Message:{message}",
-            "codeslayersdevs@gmail.com",
-            [f"{email}"],
+            subject=f"Hello, {name}",
+            message=f" Email:{email},Status:{suscribe}Message:{message}",
+            from_email="codeslayersdevs@gmail.com",
+            html_message=emailmessage(f"Un pendejo envio un mensaje:{name}",f"He aqui la info del pendejo en cuestion: {email} ,{suscribe} and the message:{message}"),
+            recipient_list=["codeslayersdevs@gmail.com"],
+            fail_silently=True,
+            )
+            send_mail(
+            subject=f"Hello, {name}",
+            message=f" Email:{email},Status:{suscribe}Message:{message}",
+            html_message=welcomeEmailComposer(f"Hello {name}","Thanks for share with us"),
+            from_email="codeslayersdevs@gmail.com",
+            recipient_list=[f'{email}'],
             fail_silently=True,
             )
             return Response({"Success":"El mensaje fue enviado con exito"},status=status.HTTP_200_OK)
@@ -99,10 +109,19 @@ class SuscribeViewset(CreateAPIView,GenericViewSet):
             serializer.save() 
             
             send_mail(
-            "Hello there",
-            "We're glad to have you on board!",
-            "codeslayersdevs@gmail.com",
-            [f'{email}'],
+            subject="Hello there",
+            message="We're glad to have you on board!",
+            html_message=welcomeEmailComposer("Hello there", "We're glad to have you on board!"),
+            from_email="codeslayersdevs@gmail.com",
+            recipient_list=[f'{email}'],
+            fail_silently=True,
+            )
+            send_mail(
+            subject="Se suscribio un pendejo",
+            message="We're glad to have you on board!",
+            html_message=emailmessage("Un Chad se suscribio", f"EL pendejo:{email}"),
+            from_email="codeslayersdevs@gmail.com",
+            recipient_list=["codeslayersdevs@gmail.com"],
             fail_silently=True,
             )
             return Response({"Status":"Done"},status=status.HTTP_200_OK) 
